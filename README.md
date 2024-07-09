@@ -10,7 +10,11 @@
 - 활성함수를 ReLU, tanh 사용시 가중치가 전혀 업데이트되지 않음
 - 활성함수를 Sigmoid 사용시 가중치가 미미하게 업데이트 되어 학습이 잘 되지 않으며, 모두 같은 값으로 가중치가 업데이트되는 문제가 발생
   - 단, Back Propagation (Softmax + Cross Entropy) 과정에서, **제일 마지막 레이어는 가중치 값에 영향을 받지 않음**
-
+- 초기화 결과 ([링크](https://github.com/arisel117/Weight_Initialization/blob/main/initialization_test.ipynb))
+  <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/zero_sigmoid.png?raw=true">
+  - 모두 0으로 초기화된 것을 볼 수 있음
+  <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/zero_relu.png?raw=true">
+  - 모두 0으로 초기화된 것을 볼 수 있음
 </br>
 
 ## Random Initialization
@@ -18,14 +22,26 @@
 - 랜덤하게 설정하므로 서로 다른 값을 갖도록 할 수 있음 (Zero Initialization의 문제를 해결 할 수 있음)
 - Activation Value가 Sigmoid의 0.5로, ReLU나 tanh는 0으로 과도하게 모여 학습/수렴 속도가 저하될 수 있음
 - 극단적인 경우에 모든 가중치 값들이 1이 되거나 -1이 될 수 있음
-
+- 정규 분포 초기화 결과 ([링크](https://github.com/arisel117/Weight_Initialization/blob/main/initialization_test.ipynb))
+    <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/normal0.01_sigmoid.png?raw=true">
+    - 표준 편차가 0.01인 정규 분포를 사용할 경우, Sigmoid에서는 0.5에 모이는 경향이 심함
+    <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/normal0.01_relu.png?raw=true">
+    - 표준 편차가 0.01인 정규 분포를 사용할 경우, ReLU에서는 소실되어 버리는 것을 볼 수 있음
+    <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/normal0.3_sigmoid.png?raw=true">
+    - 표준 편차가 0.3인 정규 분포를 사용할 경우, Sigmoid에서는 정상적으로 양단으로 분리되는 것을 볼 수 있음
+    <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/normal0.3_relu.png?raw=true">
+    - 표준 편차가 0.3인 정규 분포를 사용할 경우, ReLU에서는 여전히 폭발 혹은 소실되어 버리는 것을 볼 수 있음
 </br>
 
 ## [Lecun Initialization](https://www.nature.com/articles/nature14539)
 - ReLU 등장 전에 Input의 크기를 고려하여 분산을 조정하는 방법
 - Normal(혹은 Uniform) Distribution를 이용하여 가중치를 초기화하고, 입력 뉴런의 수에 반비례하도록 분산을 조정하는 방법
 - 범위를 벗어나는 특이값들을 배제 할 수 있음 (Random Initialization의 극단적인 경우의 문제를 해결 할 수 있음)
-
+- 초기화 결과 ([링크](https://github.com/arisel117/Weight_Initialization/blob/main/initialization_test.ipynb))
+  <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/lecun_sigmoid.png?raw=true">
+  - Sigmoid에서는 0.2 ~ 0.8 사이로 잘 분포가 됨
+  <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/lecun_relu.png?raw=true">
+  - ReLU에서는 심층 신경망에는 소실되는 것을 볼 수 있음
 </br>
 
 ## [Xavier (Glorot) Initialization](https://proceedings.mlr.press/v9/glorot10a)
@@ -35,7 +51,11 @@
 - sigmoid를 사용하면 E[X]=E[Y]=0 의 가정을 위배하므로 Xavier Initialization이 성립하지 않음
   - 그러나 [후속 논문](https://link.springer.com/chapter/10.1007/978-3-642-35289-8_26)에 따르면 **Xavier Initialization의 표준 편차에 4를 곱한 값을 이용하면 실험적으로 잘 동작**한다고 함
   - ReLU 활성함수에 다소 비효율적인 문제가 발생함
-
+- 초기화 결과 ([링크](https://github.com/arisel117/Weight_Initialization/blob/main/initialization_test.ipynb))
+  <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/xavier_sigmoid.png?raw=true">
+  - Sigmoid에서는 0.2 ~ 0.8 사이로 잘 분포가 됨
+  <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/xavier_relu.png?raw=true">
+  - ReLU에서는 심층 신경망에는 소실되는 것을 볼 수 있음
 </br>
 
 ## [(Kaiming) He Initialization](https://openaccess.thecvf.com/content_iccv_2015/html/He_Delving_Deep_into_ICCV_2015_paper.html)
@@ -46,7 +66,11 @@
 - 레이어의 깊이가 얕은 모델에서 Xavier Initialization에 비해 He Initialization이 더 빨리 학습하고 성능이 우수했음
   - Xavier 초기화보다 분산이 더 크므로, 초기 신호가 좀 더 강하게 전달될 수 있음
 - 레이어의 깊이가 깊은 모델에서 Xavier Initialization는 학습을 전혀 하지 못했지만, He Initialization을 사용했을 때는 학습을 잘 함
-
+- 초기화 결과 ([링크](https://github.com/arisel117/Weight_Initialization/blob/main/initialization_test.ipynb))
+  <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/he_sigmoid.png?raw=true">
+  - Sigmoid에서는 0.2 ~ 0.8 사이로 잘 분포가 되었으나, 역전파 과정에서 그래디언트가 급격하게 소실될 가능성이 높으므로 주의가 필요함
+  <img src="https://github.com/arisel117/Weight_Initialization/blob/main/images/he_relu.png?raw=true">
+  - ReLU에서는 심층 신경망까지 잘 전달되는 것을 볼 수 있음
 </br>
 
 ## [Orthogonal Initialization](https://arxiv.org/abs/1312.6120)
@@ -61,12 +85,6 @@
 
 ## 이 밖에도 다양한 초기화 방법이 있으나, 이는 프레임워크에 따라 공식 문서를 참조
 
-* * *
-
-</br></br>
-
-* * *
-코드 상으로 Initialization 결과 비교 내용 추가하기 ([참고 자료](https://alltommysworks.com/%EA%B0%80%EC%A4%91%EC%B9%98-%EC%B4%88%EA%B8%B0%ED%99%94/))
 * * *
 
 
